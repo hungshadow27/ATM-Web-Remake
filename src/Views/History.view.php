@@ -60,9 +60,11 @@
             </li>
         </ul>
     </nav>
-    <div class="text-center mt-8">
+    <div class="text-center mt-8 flex items-center justify-between w-full">
         <a href="<?= ROOT ?>/home" class="px-5 py-3 bg-red-300 border border-[2px] border-black rounded-lg transition-color duration-300 ease-linear hover:bg-red-400">Quay lại</a>
+        <a href="<?= ROOT ?>/history/exportAndDownloadExcel" class="px-5 py-3 bg-green-300 border border-[2px] border-black rounded-lg transition-color duration-300 ease-linear hover:bg-green-400">In/Sao kê</a>
     </div>
+
 </div>
 <script>
     <?php require_once("./src/Views/js/history.js"); ?>
