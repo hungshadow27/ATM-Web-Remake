@@ -21,10 +21,35 @@ class HistoryController
             unset($_SESSION['TRANSACTION']);
         }
         $_SESSION['pincodePass'] = false;
+        $limit = 1;
         $transactionModel = new TransactionModel;
-        $userTransactions = $transactionModel->getTransactionByUserId(unserialize($_SESSION['USER'])->user_id);
+        $userTransactions = $transactionModel->getTransactionByUserId(unserialize($_SESSION['USER'])->user_id, $limit, 0);
+        $data['totalPage'] = count($userTransactions) / $limit;
         $data['userTransactions'] = $userTransactions;
         $this->view('History.view', $data);
+    }
+    public function getAllTransaction()
+    {
+        $transactionModel = new TransactionModel;
+        $allTransaction = $transactionModel->getTransactionByUserId(unserialize($_SESSION['USER'])->user_id);
+
+        header('Content-Type: application/json');
+        echo json_encode($allTransaction);
+    }
+    public function getByPage()
+    {
+        if (isset($_GET['page'])) {
+            $current_page = $_GET['page'];
+            $limit = 1;
+            $offset = ($current_page - 1) * $limit;
+            $transactionModel = new TransactionModel;
+            $transactionForPage = $transactionModel->getTransactionByUserId(unserialize($_SESSION['USER'])->user_id, $limit, $offset);
+
+            header('Content-Type: application/json');
+            echo json_encode($transactionForPage);
+        } else {
+            echo json_encode(['error' => 'Page number is not provided']);
+        }
     }
     public function check($a = '', $b = '', $c = '')
     {

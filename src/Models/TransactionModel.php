@@ -57,11 +57,17 @@ class TransactionModel
         }
         $this->table("transaction")->insert($data);
     }
-    public function getTransactionByUserId($user_id)
+    public function getTransactionByUserId($user_id, $limit = 99, $offset = 0)
     {
         $rs = [];
-        $send = $this->table("transaction")->getListItemsWithCondition('sender_id', $user_id);
-        $receive = $this->table("transaction")->getListItemsWithCondition('receiver_id', $user_id);
+        $send = $this->table("transaction")
+            ->limit($limit)
+            ->offset($offset)
+            ->getListItemsWithCondition('sender_id', $user_id);
+        $receive = $this->table("transaction")
+            ->limit($limit)
+            ->offset($offset)
+            ->getListItemsWithCondition('receiver_id', $user_id);
         $rs = array_merge($send, $receive);
         return $rs;
     }
